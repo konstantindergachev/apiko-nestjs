@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AccountModule } from './account/account.module';
+import { UserModule } from './user/user.module';
 import getConfig from './ormconfig';
 
 @Module({
@@ -18,6 +19,7 @@ import getConfig from './ormconfig';
     }),
     AuthModule,
     AccountModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
