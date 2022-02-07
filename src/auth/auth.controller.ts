@@ -1,10 +1,4 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  Post,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { PASSWORD_CONFIRM_ERROR } from './auth.contants';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';

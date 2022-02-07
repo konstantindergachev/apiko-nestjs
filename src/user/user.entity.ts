@@ -17,7 +17,7 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @OneToOne(() => AccountEntity)
+  @OneToOne(() => AccountEntity, (account) => account.user)
   @JoinColumn()
   account: AccountEntity;
 }
