@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { AccountModule } from './account/account.module';
 import getConfig from './ormconfig';
 
 @Module({
@@ -16,6 +17,7 @@ import getConfig from './ormconfig';
         await getConfig(configService),
     }),
     AuthModule,
+    AccountModule,
   ],
   controllers: [AppController],
   providers: [AppService],
