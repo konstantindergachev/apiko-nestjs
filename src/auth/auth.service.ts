@@ -15,7 +15,7 @@ export class AuthService {
     @InjectRepository(AccountEntity)
     private readonly accountRepository: Repository<AccountEntity>,
   ) {}
-  async create(data: RegisterDto): Promise<string> {
+  async create(data: RegisterDto): Promise<UserEntity> {
     const hashed = await this.hashedPassword(data.password);
     const user = await this.accountRepository.findOne({ email: data['email'] });
     if (user) {
@@ -32,7 +32,7 @@ export class AuthService {
     const savedUser = await this.userRepository.save(preparedUser);
     delete savedUser.password;
 
-    return hashed;
+    return savedUser;
   }
 
   async hashedPassword(password: string): Promise<string> {
