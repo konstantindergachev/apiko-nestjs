@@ -1,5 +1,8 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { IProductQuery } from './interfaces/product-query.interface';
+import {
+  IProductAllQuery,
+  IProductByIdsQuery,
+} from './interfaces/product-query.interface';
 import { ProductEntity } from './product.entity';
 import { ProductService } from './product.service';
 
@@ -8,8 +11,14 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  async getAll(@Query() query: IProductQuery): Promise<ProductEntity[]> {
+  async getAll(@Query() query: IProductAllQuery): Promise<ProductEntity[]> {
     return this.productService.getAll(query);
+  }
+
+  @Get('ids')
+  async getByTds(@Query() query: IProductByIdsQuery): Promise<ProductEntity[]> {
+    const ids = query.ids.split(',').map((id) => Number(id));
+    return this.productService.getByIds(ids);
   }
 
   @Get(':id')
