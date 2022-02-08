@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IProductQuery } from './interfaces/product-query.interface';
+import { NOT_FOUND_ERROR } from './product.constants';
 import { ProductEntity } from './product.entity';
 
 @Injectable()
@@ -23,5 +24,21 @@ export class ProductService {
       skip: Number(offset),
       take: Number(limit),
     });
+  }
+
+  async getOne(id: string): Promise<ProductEntity> {
+    const product = await this.productRepository.findOne({
+      select: ['id', 'title', 'price', 'picture', 'description', 'favorite'],
+      relations: ['category'],
+      where: { id },
+    });
+
+    if (!product) {
+      throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
+    }
+
+    delete product.category.products;
+
+    return product;
   }
 }
