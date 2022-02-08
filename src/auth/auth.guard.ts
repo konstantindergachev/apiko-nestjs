@@ -17,7 +17,6 @@ export class AuthGuard implements CanActivate {
     try {
       const jwt = request.headers?.authorization.split(' ')[1];
       const { id } = this.jwtService.verify(jwt);
-      console.log('id: ', id); //FIXME:
       if (id) {
         request.params.id = id;
         return true;

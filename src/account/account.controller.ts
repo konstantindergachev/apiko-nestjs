@@ -1,7 +1,8 @@
 import { AuthGuard } from '@app/auth/auth.guard';
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
 import { AccountEntity } from './account.entity';
 import { AccountService } from './account.service';
+import { AccountDto } from './dto/update-account.dto';
 
 @UseGuards(AuthGuard)
 @Controller('account')
@@ -11,5 +12,13 @@ export class AccountController {
   @Get()
   async getAccount(@Param('id') id: number): Promise<AccountEntity> {
     return await this.accountService.findById(id);
+  }
+
+  @Put()
+  async updateAccount(
+    @Param('id') id: number,
+    @Body() body: AccountDto,
+  ): Promise<object> {
+    return await this.accountService.findByIdAndUpdate(id, body);
   }
 }
