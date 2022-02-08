@@ -1,7 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { NOT_FOUND_ERROR, UPDATED_SUCCESS } from './account.constants';
+import {
+  ADDRESS_ERROR,
+  CITY_ERROR,
+  COUNTRY_ERROR,
+  NOT_FOUND_ERROR,
+  UPDATED_SUCCESS,
+} from './account.constants';
 import { AccountEntity } from './account.entity';
 import { AccountDto } from './dto/update-account.dto';
 
@@ -33,6 +39,15 @@ export class AccountService {
   }
 
   async findByIdAndUpdate(id: number, data: AccountDto): Promise<object> {
+    if (!data.country) {
+      throw new HttpException(COUNTRY_ERROR, HttpStatus.CONFLICT);
+    }
+    if (!data.city) {
+      throw new HttpException(CITY_ERROR, HttpStatus.CONFLICT);
+    }
+    if (!data.address) {
+      throw new HttpException(ADDRESS_ERROR, HttpStatus.CONFLICT);
+    }
     const account = await this.accountRepository.update(id, data);
 
     if (!account) {
