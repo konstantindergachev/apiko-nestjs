@@ -10,10 +10,10 @@ export class ProductEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 5, scale: 2, default: 0 })
   price: number;
 
-  @Column()
+  @Column({ default: '' })
   picture: string;
 
   @Column({ nullable: true })
