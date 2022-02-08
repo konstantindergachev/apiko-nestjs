@@ -16,13 +16,21 @@ export class ProductService {
     const { offset, limit, sortBy } = query;
     const sortType = sortBy === 'latest' ? 'DESC' : 'ASC';
 
-    return this.productRepository.find({
-      select: ['id', 'title', 'price', 'picture', 'description', 'favorite'],
+    const products = await this.productRepository.find({
+      relations: ['category'],
       order: {
         createdAt: sortType,
       },
       skip: Number(offset),
       take: Number(limit),
+      cache: true,
+    });
+
+    return products.map((product) => {
+      delete product.createdAt;
+      delete product.updatedAt;
+      delete product.category.products;
+      return product;
     });
   }
 
