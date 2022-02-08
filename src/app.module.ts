@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { AccountModule } from './account/account.module';
 import { UserModule } from './user/user.module';
 import { CommonModule } from './common/common.module';
+import { CategoryModule } from './category/category.module';
+import { ProductModule } from './product/product.module';
 import getConfig from './ormconfig';
 
 @Module({
@@ -22,6 +24,8 @@ import getConfig from './ormconfig';
     AccountModule,
     UserModule,
     CommonModule,
+    CategoryModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
