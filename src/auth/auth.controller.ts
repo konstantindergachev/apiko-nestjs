@@ -21,7 +21,7 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() body: RegisterDto): Promise<AccountEntity> {
+  async register(@Body() body: RegisterDto): Promise<IUserResponse> {
     if (body.password !== body.password_confirm) {
       throw new BadRequestException(PASSWORD_CONFIRM_ERROR);
     }
@@ -31,7 +31,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
-  async login(@Body() body: LoginDto): Promise<AccountEntity> {
+  async login(@Body() body: LoginDto): Promise<IUserResponse> {
     const account = await this.authService.findByEmail(body);
     return await this.preUserResponse(account);
   }
@@ -40,6 +40,6 @@ export class AuthController {
     account: AccountEntity,
   ): Promise<IUserResponse> {
     const token = await this.jwtService.signAsync({ id: account.user.id });
-    return { ...account, token };
+    return { account, token };
   }
 }

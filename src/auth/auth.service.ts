@@ -50,12 +50,13 @@ export class AuthService {
   }
 
   async findByEmail(data: LoginDto): Promise<AccountEntity> {
-    const account = await this.accountRepository.findOne(
-      {
+    const account = await this.accountRepository.findOne({
+      select: ['id', 'fullname', 'email'],
+      relations: ['user'],
+      where: {
         email: data['email'],
       },
-      { relations: ['user'] },
-    );
+    });
 
     if (!account) {
       throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_ACCEPTABLE);

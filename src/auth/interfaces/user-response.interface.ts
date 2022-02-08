@@ -1,5 +1,6 @@
 import { AccountEntity } from '@app/account/account.entity';
 
-export interface IUserResponse extends AccountEntity {
+export interface IUserResponse {
+  account: AccountEntity;
   token: string;
 }
