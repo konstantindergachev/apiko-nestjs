@@ -59,7 +59,7 @@ export class AuthService {
     });
 
     if (!account) {
-      throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
     }
 
     const isCorrect = await this.comparedPassword(
