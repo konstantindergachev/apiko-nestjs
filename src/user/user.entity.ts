@@ -1,12 +1,6 @@
 import { AccountEntity } from '@app/account/account.entity';
 import { Exclude } from 'class-transformer';
-import {
-  Column,
-  Entity,
-  OneToOne,
-  JoinColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -17,7 +11,7 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @OneToOne(() => AccountEntity)
-  @JoinColumn()
+  @OneToOne(() => AccountEntity, (account) => account.user, { eager: false })
+  @Exclude({ toPlainOnly: true })
   account: AccountEntity;
 }

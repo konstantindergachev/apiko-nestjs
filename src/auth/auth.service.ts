@@ -20,46 +20,56 @@ export class AuthService {
     @InjectRepository(AccountEntity)
     private readonly accountRepository: Repository<AccountEntity>,
   ) {}
-  async create(data: RegisterDto): Promise<UserEntity> {
+  async create(data: RegisterDto): Promise<AccountEntity> {
     const hashedPromise = this.hashedPassword(data.password);
-    const userPromise = this.accountRepository.findOne({
+    const accountPromise = this.accountRepository.findOne({
       email: data['email'],
     });
-    const [hashed, user] = await Promise.all([hashedPromise, userPromise]);
-    if (user) {
+    const [hashed, account] = await Promise.all([
+      hashedPromise,
+      accountPromise,
+    ]);
+    if (account) {
       throw new HttpException(EMAIL_ALREADY_USED, HttpStatus.CONFLICT);
     }
 
-    const newAccount = {
+    const preAccount = {
       fullname: data.fullname,
       email: data.email,
       phone: data.phone,
     };
-    const account = await this.accountRepository.save(newAccount);
-    const preUser = { password: hashed, account };
-    const savedUser = await this.userRepository.save(preUser);
-    delete savedUser.password;
+    const user = { password: hashed };
+    const preUser = await this.userRepository.save(user);
+    const newAccount = await this.accountRepository.save({
+      ...preAccount,
+      user: preUser,
+    });
+    delete newAccount.user.password;
 
-    return savedUser;
+    return newAccount;
   }
 
-  async findByEmail(data: LoginDto): Promise<UserEntity> {
-    const account = await this.accountRepository.findOne({
-      email: data['email'],
-    });
+  async findByEmail(data: LoginDto): Promise<AccountEntity> {
+    const account = await this.accountRepository.findOne(
+      {
+        email: data['email'],
+      },
+      { relations: ['user'] },
+    );
 
-    const user = await this.userRepository.findOne({ id: account.id });
-
-    if (!user) {
+    if (!account) {
       throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_ACCEPTABLE);
     }
 
-    const isCorrect = await this.comparedPassword(data.password, user.password);
+    const isCorrect = await this.comparedPassword(
+      data.password,
+      account.user.password,
+    );
     if (!isCorrect) {
       throw new HttpException(CREDENTIALS_ERROR, HttpStatus.BAD_REQUEST);
     }
-    delete user.password;
-    return { ...user, account };
+    delete account.user.password;
+    return account;
   }
 
   async hashedPassword(password: string): Promise<string> {

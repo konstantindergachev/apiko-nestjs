@@ -36,7 +36,7 @@ export class AccountEntity {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @OneToOne(() => UserEntity)
+  @OneToOne(() => UserEntity, (user) => user.account, { eager: true })
   @JoinColumn()
   user: UserEntity;
 }
