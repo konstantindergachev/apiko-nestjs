@@ -9,6 +9,7 @@ import {
 import { FavoriteEntity } from './favorite.entity';
 import { ProductEntity } from '@app/product/product.entity';
 import { IProductFavorites } from '@app/product/interfaces/product-query.interface';
+import { UserEntity } from '@app/user/user.entity';
 
 @Injectable()
 export class FavoriteService {
@@ -17,7 +18,7 @@ export class FavoriteService {
     private readonly favoriteRepository: Repository<FavoriteEntity>,
   ) {}
 
-  async create(product: ProductEntity): Promise<void> {
+  async create(user: UserEntity, product: ProductEntity): Promise<void> {
     const favorite = await this.favoriteRepository.findOne({ product });
     if (favorite) {
       throw new HttpException(
@@ -25,7 +26,8 @@ export class FavoriteService {
         HttpStatus.CONFLICT,
       );
     }
-    await this.favoriteRepository.save({ product });
+    const preSave = { product, user };
+    await this.favoriteRepository.save({ ...preSave });
   }
 
   async remove(product: ProductEntity): Promise<void> {
@@ -50,6 +52,7 @@ export class FavoriteService {
   async createMany(
     ids: number[],
     products: ProductEntity[],
+    user: UserEntity,
   ): Promise<number[]> {
     const favorites = await this.favoriteRepository.find({
       where: { product: In(ids) },
@@ -62,7 +65,8 @@ export class FavoriteService {
     }
 
     for await (const product of products) {
-      this.favoriteRepository.save({ product });
+      const preSave = { product, user };
+      this.favoriteRepository.save({ ...preSave });
     }
 
     return ids;

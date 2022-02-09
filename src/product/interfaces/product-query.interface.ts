@@ -14,6 +14,11 @@ export interface IProductSearch {
   limit: string;
 }
 
+export interface IParamsFavorites {
+  id: string;
+  prodId: string;
+}
+
 export interface IProductFavorites {
   offset: string;
   limit: string;

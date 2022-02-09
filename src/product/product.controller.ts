@@ -1,6 +1,7 @@
 import { AuthGuard } from '@app/auth/auth.guard';
 import { FavoriteEntity } from '@app/favorite/favorite.entity';
 import { FavoriteService } from '@app/favorite/favorite.service';
+import { UserService } from '@app/user/user.service';
 import {
   Body,
   Controller,
@@ -14,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { CreateFavoriteDto } from './dto/create-favorites.dto';
 import {
+  IParamsFavorites,
   IProductAllQuery,
   IProductByIdsQuery,
   IProductFavorites,
@@ -27,6 +29,7 @@ export class ProductController {
   constructor(
     private readonly productService: ProductService,
     private readonly favoriteService: FavoriteService,
+    private readonly userService: UserService,
   ) {}
 
   @Get()
@@ -56,9 +59,13 @@ export class ProductController {
   @UseGuards(AuthGuard)
   @Post('favorites')
   @HttpCode(200)
-  async createFavorites(@Body() body: CreateFavoriteDto): Promise<number[]> {
+  async createFavorites(
+    @Param('id') id: string,
+    @Body() body: CreateFavoriteDto,
+  ): Promise<number[]> {
     const products = await this.productService.getByIds(body.ids);
-    return this.favoriteService.createMany(body.ids, products);
+    const user = await this.userService.findById(id);
+    return this.favoriteService.createMany(body.ids, products, user);
   }
 
   @Get(':id')
@@ -69,9 +76,11 @@ export class ProductController {
   @UseGuards(AuthGuard)
   @Get(':prodId/favorite')
   @HttpCode(200)
-  async addToFavorite(@Param('prodId') prodId: string): Promise<object> {
+  async addToFavorite(@Param() params: IParamsFavorites): Promise<object> {
+    const { id, prodId } = params;
     const product = await this.productService.getOne(prodId);
-    await this.favoriteService.create(product);
+    const user = await this.userService.findById(id);
+    await this.favoriteService.create(user, product);
     return { success: true };
   }
 

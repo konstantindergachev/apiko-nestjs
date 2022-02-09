@@ -1,4 +1,5 @@
 import { ProductEntity } from '@app/product/product.entity';
+import { UserEntity } from '@app/user/user.entity';
 import { Exclude } from 'class-transformer';
 
 import {
@@ -27,4 +28,10 @@ export class FavoriteEntity {
   })
   @JoinColumn({ name: 'product_id' })
   product: ProductEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.favorites, {
+    createForeignKeyConstraints: false,
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
 }
