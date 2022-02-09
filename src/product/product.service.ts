@@ -38,7 +38,7 @@ export class ProductService {
   async getOne(id: string): Promise<ProductEntity> {
     const product = await this.productRepository.findOne({
       select: ['id', 'title', 'price', 'picture', 'description', 'favorite'],
-      relations: ['category', 'favorite'],
+      relations: ['category'],
       where: { id },
     });
 

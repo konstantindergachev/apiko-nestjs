@@ -48,10 +48,8 @@ export class ProductController {
   @Get(':prodId/favorite')
   @HttpCode(200)
   async addToFavorite(@Param('prodId') prodId: string): Promise<object> {
-    const id = Number(prodId);
-    await this.favoriteService.create(id);
     const product = await this.productService.getOne(prodId);
-    console.log('product', product); //FIXME:
+    await this.favoriteService.create(product);
     return { success: true };
   }
 }

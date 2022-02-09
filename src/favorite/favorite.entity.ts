@@ -1,4 +1,5 @@
 import { ProductEntity } from '@app/product/product.entity';
+import { Exclude } from 'class-transformer';
 
 import {
   Column,
@@ -13,12 +14,11 @@ export class FavoriteEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  prod_id: number;
-
+  @Exclude()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
+  @Exclude()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 
