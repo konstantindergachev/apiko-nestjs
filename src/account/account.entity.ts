@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { UserEntity } from '@app/user/user.entity';
 import {
   Column,
@@ -30,13 +31,14 @@ export class AccountEntity {
   @Column({ nullable: true })
   address: string;
 
+  @Exclude()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
+  created_at: Date;
+  @Exclude()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  updated_at: Date;
 
-  @OneToOne(() => UserEntity, (user) => user.account, { eager: true })
-  @JoinColumn()
+  @OneToOne(() => UserEntity, (user) => user.account)
+  @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 }

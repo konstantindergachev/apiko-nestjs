@@ -22,7 +22,7 @@ export class ProductService {
     const products = await this.productRepository.find({
       relations: ['category'],
       order: {
-        createdAt: sortType,
+        created_at: sortType,
       },
       skip: Number(offset),
       take: Number(limit),
@@ -30,8 +30,6 @@ export class ProductService {
     });
 
     return products.map((product) => {
-      delete product.createdAt;
-      delete product.updatedAt;
       delete product.category.products;
       return product;
     });
@@ -40,7 +38,7 @@ export class ProductService {
   async getOne(id: string): Promise<ProductEntity> {
     const product = await this.productRepository.findOne({
       select: ['id', 'title', 'price', 'picture', 'description', 'favorite'],
-      relations: ['category'],
+      relations: ['category', 'favorite'],
       where: { id },
     });
 
@@ -60,8 +58,6 @@ export class ProductService {
     });
 
     return products.map((product) => {
-      delete product.createdAt;
-      delete product.updatedAt;
       delete product.category.products;
       return product;
     });
@@ -78,8 +74,6 @@ export class ProductService {
       cache: true,
     });
     return products.map((product) => {
-      delete product.createdAt;
-      delete product.updatedAt;
       delete product.category.products;
       return product;
     });

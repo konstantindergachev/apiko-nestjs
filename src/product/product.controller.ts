@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { AuthGuard } from '@app/auth/auth.guard';
+import { FavoriteService } from '@app/favorite/favorite.service';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   IProductAllQuery,
   IProductByIdsQuery,
@@ -9,7 +18,10 @@ import { ProductService } from './product.service';
 
 @Controller('products')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly favoriteService: FavoriteService,
+  ) {}
 
   @Get()
   async getAll(@Query() query: IProductAllQuery): Promise<ProductEntity[]> {
@@ -30,5 +42,16 @@ export class ProductController {
   @Get(':id')
   async getOne(@Param('id') id: string): Promise<ProductEntity> {
     return this.productService.getOne(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get(':prodId/favorite')
+  @HttpCode(200)
+  async addToFavorite(@Param('prodId') prodId: string): Promise<object> {
+    const id = Number(prodId);
+    await this.favoriteService.create(id);
+    const product = await this.productService.getOne(prodId);
+    console.log('product', product); //FIXME:
+    return { success: true };
   }
 }

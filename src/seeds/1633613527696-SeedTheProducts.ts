@@ -3,24 +3,159 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class SeedDb1633613527696 implements MigrationInterface {
   name = 'SeedDb1633613527696';
 
+  products = [
+    {
+      title: 'Black one',
+      price: 175.19,
+      picture: 'https://domain.com',
+      description: 'Description the balck one',
+      favorite: 0,
+      created_at: '2022-02-08 13:42:42.688573',
+      updated_at: '2022-02-08 13:42:42.688573',
+      category_id: 1,
+    },
+    {
+      title: 'Black two',
+      price: 185.3,
+      picture: 'https://domain.com',
+      description: 'Description the balck two',
+      favorite: 0,
+      created_at: '2022-02-08 13:52:43.013602',
+      updated_at: '2022-02-08 13:52:43.013602',
+      category_id: 1,
+    },
+    {
+      title: 'Gray one',
+      price: 384.1,
+      picture: 'https://domain.com',
+      description: 'Description the gray one',
+      favorite: 0,
+      created_at: '2022-02-08 13:53:31.204826',
+      updated_at: '2022-02-08 13:53:31.204826',
+      category_id: 1,
+    },
+    {
+      title: 'Black three',
+      price: 263.08,
+      picture: 'https://domain.com',
+      description: 'Description the black three',
+      favorite: 1,
+      created_at: '2022-02-08 13:54:19.38195',
+      updated_at: '2022-02-08 13:54:19.38195',
+      category_id: 3,
+    },
+    {
+      title: 'Pink one',
+      price: 302.09,
+      picture: 'https://domain.com',
+      description: 'Description the pink one',
+      favorite: 0,
+      created_at: '2022-02-08 13:54:19.38195',
+      updated_at: '2022-02-08 13:54:19.38195',
+      category_id: 4,
+    },
+    {
+      title: 'Black four',
+      price: 190.67,
+      picture: 'https://domain.com',
+      description: 'Description the black five',
+      favorite: 0,
+      created_at: '2022-02-08 13:56:02.45327',
+      updated_at: '2022-02-08 13:56:02.45327',
+      category_id: 4,
+    },
+    {
+      title: 'Black five',
+      price: 115.02,
+      picture: 'https://domain.com',
+      description: 'Description the black five',
+      favorite: 0,
+      created_at: '2022-02-08 13:57:48.273112',
+      updated_at: '2022-02-08 13:57:48.273112',
+      category_id: 3,
+    },
+    {
+      title: 'White one',
+      price: 212.54,
+      picture: 'https://domain.com',
+      description: 'Description the white one',
+      favorite: 1,
+      created_at: '2022-02-08 13:52:01.534566',
+      updated_at: '2022-02-08 13:52:01.534566',
+      category_id: 2,
+    },
+    {
+      title: 'Black six',
+      price: 277.22,
+      picture: 'https://domain.com',
+      description: 'Description the black six',
+      favorite: 0,
+      created_at: '2022-02-08 13:59:23.649851',
+      updated_at: '2022-02-08 13:59:23.649851',
+      category_id: 2,
+    },
+    {
+      title: 'White two',
+      price: 155.84,
+      picture: '',
+      description: 'Description the white two',
+      favorite: 1,
+      created_at: '2022-02-08 13:58:32.214288',
+      updated_at: '2022-02-08 13:58:32.214288',
+      category_id: 3,
+    },
+    {
+      title: 'White three',
+      price: 219.43,
+      picture: 'https://domain.com',
+      description: 'Description the white three',
+      favorite: 0,
+      created_at: '2022-02-08 14:00:08.549262',
+      updated_at: '2022-02-08 14:00:08.549262',
+      category_id: 3,
+    },
+    {
+      title: 'White four',
+      price: 346.25,
+      picture: 'https://domain.com',
+      description: 'Description the white four',
+      favorite: 0,
+      created_at: '2022-02-08 14:00:52.893678',
+      updated_at: '2022-02-08 14:00:52.893678',
+      category_id: 3,
+    },
+  ];
+
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `INSERT INTO "products"
-       (title, picture, description, favorite, createdAt, updatedAt, categoryId, price) VALUES
-       ('Black one', 'https://domain.com', 'Description the balck one', , '2022-02-08 13:42:42.688573', '2022-02-08 13:42:42.688573' 1, 175.19),
-       ('Black two', 'https://domain.com', 'Description the balck two', , '2022-02-08 13:52:43.013602', '2022-02-08 13:52:43.013602' 1, 185.30),
-       ('Gray one',  'https://domain.com', 'Description the gray one', , '2022-02-08 13:53:31.204826', '2022-02-08 13:53:31.204826' 1, 384.10),
-       ('Black three', 'https://domain.com', 'Description the balck three', 1, '2022-02-08 13:54:19.38195', '2022-02-08 13:54:19.38195' 3, 263.08),
-       ('Pink one', 'https://domain.com', 'Description the pink one', , '2022-02-08 13:55:05.526585', '2022-02-08 13:55:05.526585' 4, 302.09),
-       ('Black four', 'https://domain.com', 'Description the balck four', , '2022-02-08 13:56:02.45327', '2022-02-08 13:56:02.45327' 4, 190.67),
-       ('Black five', 'https://domain.com', 'Description the balck five', , '2022-02-08 13:57:48.273112', '2022-02-08 13:57:48.273112' 3, 115.02),
-       ('White one', 'https://domain.com', 'Description the white one', 1, '2022-02-08 13:52:01.534566', '2022-02-08 13:52:01.534566' 2, 212.54),
-       ('Black six', 'https://domain.com', 'Description the balck six', , '2022-02-08 13:59:23.649851', '2022-02-08 13:59:23.649851' 2, 277.22),
-       ('White two',                      , 'Description the white two', 1, '2022-02-08 13:58:32.214288', '2022-02-08 13:58:32.214288' 3, 155.84),
-       ('White three', 'https://domain.com', 'Description the white three', , '2022-02-08 14:00:08.549262', '2022-02-08 14:00:08.549262' 3, 219.43),
-       ('White four', 'https://domain.com', 'Description the white four', , '2022-02-08 14:00:52.893678', '2022-02-08 14:00:52.893678' 3, 346.25)
-      `,
-    );
+    let query =
+      'INSERT INTO "products" (title, price, picture, description, favorite, created_at, updated_at, category_id) VALUES ';
+
+    const prods = this.products;
+    for (let i = 0; i < prods.length; i++) {
+      if (i === prods.length - 1) {
+        query += `(
+          '${prods[i].title}',
+           ${prods[i].price},
+          '${prods[i].picture}',
+          '${prods[i].description}',
+           ${!!prods[i].favorite},
+          '${prods[i].created_at}',
+          '${prods[i].updated_at}',
+           ${prods[i].category_id}
+        )`;
+        await queryRunner.query(query);
+      }
+      query += `(
+          '${prods[i].title}',
+           ${prods[i].price},
+          '${prods[i].picture}',
+          '${prods[i].description}',
+           ${!!prods[i].favorite},
+          '${prods[i].created_at}',
+          '${prods[i].updated_at}',
+           ${prods[i].category_id}
+        ), `;
+    }
   }
 
   public async down(): Promise<void> {}

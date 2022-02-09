@@ -4,6 +4,7 @@ import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -29,20 +30,20 @@ export class ProductEntity {
   @Column({ default: false })
   favorite: boolean;
 
+  @Exclude()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  created_at: Date;
 
+  @Exclude()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  updated_at: Date;
 
   @ManyToOne(() => CategoryEntity, (category) => category.products, {
-    eager: false,
+    createForeignKeyConstraints: false,
   })
-  @Exclude({ toPlainOnly: true })
+  @JoinColumn({ name: 'category_id' })
   category: CategoryEntity;
 
-  @OneToMany(() => FavoriteEntity, (favorite) => favorite.product, {
-    eager: true,
-  })
+  @OneToMany(() => FavoriteEntity, (favorite) => favorite.product)
   favorites: FavoriteEntity[];
 }

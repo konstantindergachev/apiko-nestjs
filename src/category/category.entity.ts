@@ -9,8 +9,6 @@ export class CategoryEntity {
   @Column()
   name: string;
 
-  @OneToMany(() => ProductEntity, (product) => product.category, {
-    eager: true,
-  })
+  @OneToMany(() => ProductEntity, (product) => product.category)
   products: ProductEntity[];
 }

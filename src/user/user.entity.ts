@@ -11,7 +11,6 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @OneToOne(() => AccountEntity, (account) => account.user, { eager: false })
-  @Exclude({ toPlainOnly: true })
+  @OneToOne(() => AccountEntity, (account) => account.user)
   account: AccountEntity;
 }
