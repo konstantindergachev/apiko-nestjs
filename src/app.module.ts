@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { CommonModule } from './common/common.module';
 import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
+import { FavoriteModule } from './favorite/favorite.module';
 import getConfig from './ormconfig';
 
 @Module({
@@ -26,6 +27,7 @@ import getConfig from './ormconfig';
     CommonModule,
     CategoryModule,
     ProductModule,
+    FavoriteModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,6 +1,13 @@
 import { CategoryEntity } from '@app/category/category.entity';
+import { FavoriteEntity } from '@app/favorite/favorite.entity';
 import { Exclude } from 'class-transformer';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'products' })
 export class ProductEntity {
@@ -33,4 +40,9 @@ export class ProductEntity {
   })
   @Exclude({ toPlainOnly: true })
   category: CategoryEntity;
+
+  @OneToMany(() => FavoriteEntity, (favorite) => favorite.product, {
+    eager: true,
+  })
+  favorites: FavoriteEntity[];
 }
