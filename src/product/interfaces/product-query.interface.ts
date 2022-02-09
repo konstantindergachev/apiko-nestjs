@@ -7,3 +7,9 @@ export interface IProductAllQuery {
 export interface IProductByIdsQuery {
   ids: string;
 }
+
+export interface IProductSearch {
+  keywords: string;
+  offset: string;
+  limit: string;
+}

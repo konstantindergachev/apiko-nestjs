@@ -1,7 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
-import { IProductAllQuery } from './interfaces/product-query.interface';
+import { Repository, In, Like } from 'typeorm';
+import {
+  IProductAllQuery,
+  IProductSearch,
+} from './interfaces/product-query.interface';
 import { NOT_FOUND_ERROR } from './product.constants';
 import { ProductEntity } from './product.entity';
 
@@ -56,6 +59,24 @@ export class ProductService {
       where: { id: In(ids) },
     });
 
+    return products.map((product) => {
+      delete product.createdAt;
+      delete product.updatedAt;
+      delete product.category.products;
+      return product;
+    });
+  }
+
+  async search(query: IProductSearch): Promise<ProductEntity[]> {
+    const { keywords, offset, limit } = query;
+
+    const products = await this.productRepository.find({
+      relations: ['category'],
+      where: { title: Like(`%${keywords}%`) },
+      skip: Number(offset),
+      take: Number(limit),
+      cache: true,
+    });
     return products.map((product) => {
       delete product.createdAt;
       delete product.updatedAt;
