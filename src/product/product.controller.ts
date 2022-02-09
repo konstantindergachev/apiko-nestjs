@@ -2,6 +2,7 @@ import { AuthGuard } from '@app/auth/auth.guard';
 import { FavoriteService } from '@app/favorite/favorite.service';
 import {
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -50,6 +51,14 @@ export class ProductController {
   async addToFavorite(@Param('prodId') prodId: string): Promise<object> {
     const product = await this.productService.getOne(prodId);
     await this.favoriteService.create(product);
+    return { success: true };
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':prodId/favorite')
+  async deleteFromFavorite(@Param('prodId') prodId: string): Promise<object> {
+    const product = await this.productService.getOne(prodId);
+    await this.favoriteService.remove(product);
     return { success: true };
   }
 }
