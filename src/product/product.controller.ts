@@ -1,4 +1,5 @@
 import { AuthGuard } from '@app/auth/auth.guard';
+import { FavoriteEntity } from '@app/favorite/favorite.entity';
 import { FavoriteService } from '@app/favorite/favorite.service';
 import {
   Controller,
@@ -12,6 +13,7 @@ import {
 import {
   IProductAllQuery,
   IProductByIdsQuery,
+  IProductFavorites,
   IProductSearch,
 } from './interfaces/product-query.interface';
 import { ProductEntity } from './product.entity';
@@ -38,6 +40,14 @@ export class ProductController {
   @Get('search')
   async search(@Query() query: IProductSearch): Promise<ProductEntity[]> {
     return this.productService.search(query);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('favorites')
+  async getFavorites(
+    @Query() query: IProductFavorites,
+  ): Promise<FavoriteEntity[]> {
+    return this.favoriteService.getFavorites(query);
   }
 
   @Get(':id')

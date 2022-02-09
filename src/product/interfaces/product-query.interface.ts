@@ -13,3 +13,8 @@ export interface IProductSearch {
   offset: string;
   limit: string;
 }
+
+export interface IProductFavorites {
+  offset: string;
+  limit: string;
+}

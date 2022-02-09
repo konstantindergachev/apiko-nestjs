@@ -7,6 +7,7 @@ import {
 } from './favorite.constants';
 import { FavoriteEntity } from './favorite.entity';
 import { ProductEntity } from '@app/product/product.entity';
+import { IProductFavorites } from '@app/product/interfaces/product-query.interface';
 
 @Injectable()
 export class FavoriteService {
@@ -32,5 +33,17 @@ export class FavoriteService {
       throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
     }
     await this.favoriteRepository.delete({ product });
+  }
+
+  async getFavorites(query: IProductFavorites): Promise<FavoriteEntity[]> {
+    const { offset, limit } = query;
+    const favorites = await this.favoriteRepository.find({
+      relations: ['product'],
+      skip: Number(offset),
+      take: Number(limit),
+      cache: true,
+    });
+
+    return favorites;
   }
 }
