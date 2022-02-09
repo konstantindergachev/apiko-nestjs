@@ -2,14 +2,17 @@ import { AuthGuard } from '@app/auth/auth.guard';
 import { FavoriteEntity } from '@app/favorite/favorite.entity';
 import { FavoriteService } from '@app/favorite/favorite.service';
 import {
+  Body,
   Controller,
   Delete,
   Get,
   HttpCode,
   Param,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { CreateFavoriteDto } from './dto/create-favorites.dto';
 import {
   IProductAllQuery,
   IProductByIdsQuery,
@@ -48,6 +51,14 @@ export class ProductController {
     @Query() query: IProductFavorites,
   ): Promise<FavoriteEntity[]> {
     return this.favoriteService.getFavorites(query);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('favorites')
+  @HttpCode(200)
+  async createFavorites(@Body() body: CreateFavoriteDto): Promise<number[]> {
+    const products = await this.productService.getByIds(body.ids);
+    return this.favoriteService.createMany(body.ids, products);
   }
 
   @Get(':id')

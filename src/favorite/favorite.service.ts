@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import {
   NOT_FOUND_ERROR,
+  ONE_OF_PRODUCT_ALREADY_FAVORITE_ERROR,
   PRODUCT_ALREADY_FAVORITE_ERROR,
 } from './favorite.constants';
 import { FavoriteEntity } from './favorite.entity';
@@ -45,5 +46,25 @@ export class FavoriteService {
     });
 
     return favorites;
+  }
+  async createMany(
+    ids: number[],
+    products: ProductEntity[],
+  ): Promise<number[]> {
+    const favorites = await this.favoriteRepository.find({
+      where: { product: In(ids) },
+    });
+    if (favorites.length) {
+      throw new HttpException(
+        ONE_OF_PRODUCT_ALREADY_FAVORITE_ERROR,
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    for await (const product of products) {
+      this.favoriteRepository.save({ product });
+    }
+
+    return ids;
   }
 }
