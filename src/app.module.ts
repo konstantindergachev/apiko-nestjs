@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module';
 import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { FavoriteModule } from './favorite/favorite.module';
+import { CountryModule } from './country/country.module';
 import getConfig from './ormconfig';
 
 @Module({
@@ -28,6 +29,7 @@ import getConfig from './ormconfig';
     CategoryModule,
     ProductModule,
     FavoriteModule,
+    CountryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
