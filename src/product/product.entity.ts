@@ -1,10 +1,12 @@
 import { CategoryEntity } from '@app/category/category.entity';
 import { FavoriteEntity } from '@app/favorite/favorite.entity';
+import { OrderEntity } from '@app/order/order.entity';
 import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -46,4 +48,7 @@ export class ProductEntity {
 
   @OneToMany(() => FavoriteEntity, (favorite) => favorite.product)
   favorites: FavoriteEntity[];
+
+  @ManyToMany(() => OrderEntity, (order) => order.products)
+  orders: OrderEntity[];
 }

@@ -4,9 +4,11 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { OrderEntity } from '@app/order/order.entity';
 
 @Entity({ name: 'accounts' })
 export class AccountEntity {
@@ -34,6 +36,7 @@ export class AccountEntity {
   @Exclude()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
+
   @Exclude()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
@@ -41,4 +44,7 @@ export class AccountEntity {
   @OneToOne(() => UserEntity, (user) => user.account)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
+
+  @OneToMany(() => OrderEntity, (order) => order.account)
+  orders: OrderEntity[];
 }

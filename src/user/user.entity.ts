@@ -1,5 +1,6 @@
 import { AccountEntity } from '@app/account/account.entity';
 import { FavoriteEntity } from '@app/favorite/favorite.entity';
+import { OrderEntity } from '@app/order/order.entity';
 import { Exclude } from 'class-transformer';
 import {
   Column,
@@ -23,4 +24,7 @@ export class UserEntity {
 
   @OneToMany(() => FavoriteEntity, (favorite) => favorite.user)
   favorites: FavoriteEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.user)
+  orders: OrderEntity[];
 }

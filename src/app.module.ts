@@ -11,6 +11,7 @@ import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { CountryModule } from './country/country.module';
+import { OrderModule } from './order/order.module';
 import getConfig from './ormconfig';
 
 @Module({
@@ -30,6 +31,7 @@ import getConfig from './ormconfig';
     ProductModule,
     FavoriteModule,
     CountryModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
