@@ -1,6 +1,5 @@
 import { ProductEntity } from '@app/product/product.entity';
 import { UserEntity } from '@app/user/user.entity';
-import { Exclude } from 'class-transformer';
 
 import {
   Column,
@@ -15,12 +14,18 @@ export class FavoriteEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Exclude()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    select: false,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   created_at: Date;
 
-  @Exclude()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    select: false,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
 
   @ManyToOne(() => ProductEntity, (product) => product.favorites, {

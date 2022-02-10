@@ -29,10 +29,7 @@ export class ProductService {
       cache: true,
     });
 
-    return products.map((product) => {
-      delete product.category.products;
-      return product;
-    });
+    return products;
   }
 
   async getOne(id: string): Promise<ProductEntity> {
@@ -65,7 +62,6 @@ export class ProductService {
 
   async search(query: IProductSearch): Promise<ProductEntity[]> {
     const { keywords, offset, limit } = query;
-
     const products = await this.productRepository.find({
       relations: ['category'],
       where: { title: Like(`%${keywords}%`) },

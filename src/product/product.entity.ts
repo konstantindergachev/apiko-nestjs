@@ -1,7 +1,6 @@
 import { CategoryEntity } from '@app/category/category.entity';
 import { FavoriteEntity } from '@app/favorite/favorite.entity';
 import { OrderEntity } from '@app/order/order.entity';
-import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -32,12 +31,17 @@ export class ProductEntity {
   @Column({ default: false })
   favorite: boolean;
 
-  @Exclude()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   created_at: Date;
 
-  @Exclude()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    select: false,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
 
   @ManyToOne(() => CategoryEntity, (category) => category.products, {

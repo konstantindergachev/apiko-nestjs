@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import { UserEntity } from '@app/user/user.entity';
 import {
   Column,
@@ -33,12 +32,18 @@ export class AccountEntity {
   @Column({ nullable: true })
   address: string;
 
-  @Exclude()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    select: false,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   created_at: Date;
 
-  @Exclude()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    select: false,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
 
   @OneToOne(() => UserEntity, (user) => user.account)

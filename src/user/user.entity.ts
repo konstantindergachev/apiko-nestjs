@@ -1,7 +1,6 @@
 import { AccountEntity } from '@app/account/account.entity';
 import { FavoriteEntity } from '@app/favorite/favorite.entity';
 import { OrderEntity } from '@app/order/order.entity';
-import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -15,7 +14,6 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Exclude()
   @Column()
   password: string;
 
