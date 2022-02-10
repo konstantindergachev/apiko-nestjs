@@ -1,4 +1,3 @@
-import { AccountEntity } from '@app/account/account.entity';
 import { ProductEntity } from '@app/product/product.entity';
 import { UserEntity } from '@app/user/user.entity';
 import {
@@ -16,31 +15,20 @@ export class OrderEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.orders, {
-    createForeignKeyConstraints: false,
-  })
-  @JoinColumn({ name: 'owner_id' })
-  user: UserEntity;
-
-  @ManyToMany(() => ProductEntity, (product) => product.orders, {
-    createForeignKeyConstraints: false,
-    cascade: true,
-  })
-  @JoinTable({
-    name: 'orders_products',
-    joinColumn: { name: 'orders_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'products_id', referencedColumnName: 'id' },
-  })
-  products: ProductEntity[];
-
-  @ManyToOne(() => AccountEntity, (account) => account.orders, {
-    createForeignKeyConstraints: false,
-  })
-  @JoinColumn({ name: 'shipment' })
-  account: AccountEntity;
-
-  @Column()
+  @Column({ default: 0 })
   total: number;
+
+  @Column('jsonb', { nullable: true })
+  items: object[];
+
+  @Column('simple-json', { nullable: true })
+  shipment: {
+    fullname: string;
+    phone: string;
+    country: string;
+    city: string;
+    address: string;
+  };
 
   @Column({
     select: false,
@@ -55,4 +43,21 @@ export class OrderEntity {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @ManyToMany(() => ProductEntity, (product) => product.orders, {
+    createForeignKeyConstraints: false,
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'orders_products',
+    joinColumn: { name: 'orders_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'products_id', referencedColumnName: 'id' },
+  })
+  products: ProductEntity[];
+
+  @ManyToOne(() => UserEntity, (user) => user.orders, {
+    createForeignKeyConstraints: false,
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
 }

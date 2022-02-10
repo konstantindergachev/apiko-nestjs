@@ -6,25 +6,29 @@ export class SeedDb1633613527698 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     let query =
-      'INSERT INTO "orders" (total, created_at, updated_at, owner_id, shipment) VALUES ';
+      'INSERT INTO "orders" (total, items, shipment, created_at, updated_at, user_id, account_id) VALUES ';
 
     for (let i = 0; i < orders.length; i++) {
       if (i === orders.length - 1) {
         query += `(
            ${orders[i].total},
+           ${orders[i].items},
+           ${orders[i].shipment},
           '${orders[i].created_at}',
           '${orders[i].updated_at}',
-           ${orders[i].owner_id},
-           ${orders[i].shipment}
+           ${orders[i].user_id},
+           ${orders[i].account_id}
         )`;
         await queryRunner.query(query);
       }
       query += `(
            ${orders[i].total},
+           ${orders[i].items},
+           ${orders[i].shipment},
           '${orders[i].created_at}',
           '${orders[i].updated_at}',
-           ${orders[i].owner_id},
-           ${orders[i].shipment}
+           ${orders[i].user_id},
+           ${orders[i].account_id}
         ), `;
     }
   }

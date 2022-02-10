@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
       }
       throw new HttpException(NOT_AUTHORIZED_ERROR, HttpStatus.UNAUTHORIZED);
     } catch (error) {
-      return false;
+      throw new HttpException(NOT_AUTHORIZED_ERROR, HttpStatus.UNAUTHORIZED);
     }
   }
 }

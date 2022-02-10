@@ -1,6 +1,8 @@
+import { UserEntity } from '@app/user/user.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateOrderDto } from './dto/create-order.dto';
 import { IOrderAllQuery } from './interfaces/order-query.interface';
 import { NOT_FOUND_ERROR } from './order.constants';
 import { OrderEntity } from './order.entity';
@@ -23,12 +25,14 @@ export class OrderService {
       cache: true,
     });
 
-    return orders;
+    return orders.map((order) => {
+      delete order.user.password;
+      return order;
+    });
   }
   async getOne(id: string): Promise<OrderEntity> {
     const order = await this.orderRepository.findOne({
-      select: ['id', 'total'],
-      relations: ['products', 'user', 'account'],
+      relations: ['products', 'user'],
       where: { id },
     });
 
@@ -36,6 +40,14 @@ export class OrderService {
       throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
     }
 
+    delete order.user.password;
+
     return order;
+  }
+
+  async create(user: UserEntity, order: CreateOrderDto): Promise<OrderEntity> {
+    const preSave = { ...order, user };
+    const savedOrder = await this.orderRepository.save({ ...preSave });
+    return savedOrder;
   }
 }
