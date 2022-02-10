@@ -1,7 +1,6 @@
 import { AccountEntity } from '@app/account/account.entity';
 import { ProductEntity } from '@app/product/product.entity';
 import { UserEntity } from '@app/user/user.entity';
-import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -17,28 +16,43 @@ export class OrderEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.orders)
+  @ManyToOne(() => UserEntity, (user) => user.orders, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'owner_id' })
   user: UserEntity;
 
   @ManyToMany(() => ProductEntity, (product) => product.orders, {
+    createForeignKeyConstraints: false,
     cascade: true,
   })
-  @JoinTable({ name: 'items' })
+  @JoinTable({
+    name: 'orders_products',
+    joinColumn: { name: 'orders_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'products_id', referencedColumnName: 'id' },
+  })
   products: ProductEntity[];
 
-  @ManyToOne(() => AccountEntity, (account) => account.orders)
+  @ManyToOne(() => AccountEntity, (account) => account.orders, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'shipment' })
   account: AccountEntity;
 
   @Column()
   total: number;
 
-  @Exclude()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    select: false,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   created_at: Date;
 
-  @Exclude()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    select: false,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
 }

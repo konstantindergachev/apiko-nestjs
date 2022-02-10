@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { orders } from '@app/mock-data/orders';
 
-export class SeedDb1633613527697 implements MigrationInterface {
-  name = 'SeedDb1633613527697';
+export class SeedDb1633613527698 implements MigrationInterface {
+  name = 'SeedDb1633613527698';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     let query =
