@@ -1,0 +1,18 @@
+export const countries = [
+  { name: 'argentina' },
+  { name: 'australia' },
+  { name: 'brazil' },
+  { name: 'china' },
+  { name: 'egypt' },
+  { name: 'england' },
+  { name: 'france' },
+  { name: 'germany' },
+  { name: 'italy' },
+  { name: 'japan' },
+  { name: 'moldova' },
+  { name: 'poland' },
+  { name: 'russia' },
+  { name: 'spain' },
+  { name: 'ukraine' },
+  { name: 'usa' },
+];
