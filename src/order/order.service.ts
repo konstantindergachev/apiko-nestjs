@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { IOrderAllQuery } from './interfaces/order-query.interface';
+// import { OrderProductEntity } from './order-product.entity';
 import { NOT_FOUND_ERROR } from './order.constants';
 import { OrderEntity } from './order.entity';
 
@@ -19,7 +20,7 @@ export class OrderService {
 
     const orders = await this.orderRepository.find({
       select: ['id', 'total'],
-      relations: ['products', 'user', 'account'],
+      relations: ['products', 'user'],
       skip: Number(offset),
       take: Number(limit),
       cache: true,

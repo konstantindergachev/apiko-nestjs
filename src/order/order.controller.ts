@@ -1,4 +1,6 @@
 import { AuthGuard } from '@app/auth/auth.guard';
+import { ProductEntity } from '@app/product/product.entity';
+import { ProductService } from '@app/product/product.service';
 import { UserService } from '@app/user/user.service';
 import {
   Body,
@@ -11,6 +13,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { IItemCreateOrder } from './interfaces/create-order.interface';
 import { IOrderAllQuery } from './interfaces/order-query.interface';
 import { OrderEntity } from './order.entity';
 import { OrderService } from './order.service';
@@ -21,6 +24,7 @@ export class OrderController {
   constructor(
     private readonly orderService: OrderService,
     private readonly userService: UserService,
+    private readonly productService: ProductService,
   ) {}
 
   @Get()
@@ -40,6 +44,34 @@ export class OrderController {
     @Body() body: CreateOrderDto,
   ): Promise<OrderEntity> {
     const user = await this.userService.findById(id);
-    return await this.orderService.create(user, body);
+
+    const prodIds = body.items.map((item) => item.product_id);
+
+    const products = await this.productService.getByIds(prodIds);
+    const total = this.calcTotal(products, body.items);
+
+    const order = {
+      total,
+      items: body.items,
+      shipment: body.shipment,
+      products,
+    };
+    return await this.orderService.create(user, order);
+  }
+
+  private calcTotal(
+    products: ProductEntity[],
+    items: IItemCreateOrder[],
+  ): number {
+    let total = 0;
+    products.map((product: ProductEntity) => {
+      items.map((item) => {
+        if (product.id === item.product_id) {
+          total += Number(product.price) * item.quantity;
+        }
+      });
+    });
+
+    return Math.ceil(total);
   }
 }
