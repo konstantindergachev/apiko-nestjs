@@ -3,7 +3,7 @@ version: '3.9'
 services:
   database:
     container_name: apiko
-    image: 'postgres:12.3'
+    image: 'postgres:12.3-alpine'
     ports:
       - '5432:5432'
     environment:
