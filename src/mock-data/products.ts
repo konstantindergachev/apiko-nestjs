@@ -2,7 +2,8 @@ export const products = [
   {
     title: 'Black one',
     price: 175.19,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626728/black_six_yzimvn.jpg',
     description: 'Description the balck one',
     favorite: 0,
     created_at: '2022-02-08 13:42:42.688573',
@@ -12,7 +13,8 @@ export const products = [
   {
     title: 'Black two',
     price: 185.3,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626688/black_five_gvoqvi.jpg',
     description: 'Description the balck two',
     favorite: 0,
     created_at: '2022-02-08 13:52:43.013602',
@@ -22,7 +24,8 @@ export const products = [
   {
     title: 'Gray one',
     price: 384.1,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626581/gray_one_ypus8c.jpg',
     description: 'Description the gray one',
     favorite: 0,
     created_at: '2022-02-08 13:53:31.204826',
@@ -32,7 +35,8 @@ export const products = [
   {
     title: 'Black three',
     price: 263.08,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626656/black_four_sdotmm.jpg',
     description: 'Description the black three',
     favorite: 1,
     created_at: '2022-02-08 13:54:19.38195',
@@ -42,7 +46,8 @@ export const products = [
   {
     title: 'Pink one',
     price: 302.09,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626631/pink_one_ajen5g.jpg',
     description: 'Description the pink one',
     favorite: 0,
     created_at: '2022-02-08 13:54:19.38195',
@@ -52,7 +57,8 @@ export const products = [
   {
     title: 'Black four',
     price: 190.67,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626606/black_three_sqagwc.jpg',
     description: 'Description the black five',
     favorite: 0,
     created_at: '2022-02-08 13:56:02.45327',
@@ -62,7 +68,8 @@ export const products = [
   {
     title: 'Black five',
     price: 115.02,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626550/black_two_hmx7bk.jpg',
     description: 'Description the black five',
     favorite: 0,
     created_at: '2022-02-08 13:57:48.273112',
@@ -72,7 +79,8 @@ export const products = [
   {
     title: 'White one',
     price: 212.54,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626799/white_four_stduxc.jpg',
     description: 'Description the white one',
     favorite: 1,
     created_at: '2022-02-08 13:52:01.534566',
@@ -82,7 +90,8 @@ export const products = [
   {
     title: 'Black six',
     price: 277.22,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626492/black_one_rmcrzf.jpg',
     description: 'Description the black six',
     favorite: 0,
     created_at: '2022-02-08 13:59:23.649851',
@@ -92,7 +101,8 @@ export const products = [
   {
     title: 'White two',
     price: 155.84,
-    picture: '',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626779/white_three_c2qjby.jpg',
     description: 'Description the white two',
     favorite: 1,
     created_at: '2022-02-08 13:58:32.214288',
@@ -102,7 +112,8 @@ export const products = [
   {
     title: 'White three',
     price: 219.43,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626755/white_two_dggutq.jpg',
     description: 'Description the white three',
     favorite: 0,
     created_at: '2022-02-08 14:00:08.549262',
@@ -112,7 +123,8 @@ export const products = [
   {
     title: 'White four',
     price: 346.25,
-    picture: 'https://domain.com',
+    picture:
+      'https://res.cloudinary.com/dcwqo3sra/image/upload/v1645626708/white_one_lllfvv.jpg',
     description: 'Description the white four',
     favorite: 0,
     created_at: '2022-02-08 14:00:52.893678',
