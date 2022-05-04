@@ -74,4 +74,15 @@ export class ProductService {
       return product;
     });
   }
+
+  async getAllByCategory(id: number): Promise<ProductEntity[]> {
+    const products = await this.productRepository.find({
+      relations: ['category'],
+    });
+
+    const findProducts = products.filter(
+      (product) => product.category.id === id && product,
+    );
+    return findProducts;
+  }
 }
