@@ -21,6 +21,7 @@ import {
   IProductFavorites,
   IProductSearch,
 } from './interfaces/product-query.interface';
+import { ADD_TO_FAVORITE_SUCCESSFUL } from './product.constants';
 import { ProductEntity } from './product.entity';
 import { ProductService } from './product.service';
 
@@ -81,7 +82,7 @@ export class ProductController {
     const product = await this.productService.getOne(prodId);
     const user = await this.userService.findById(id);
     await this.favoriteService.create(user, product);
-    return { success: true };
+    return { message: ADD_TO_FAVORITE_SUCCESSFUL };
   }
 
   @UseGuards(AuthGuard)
