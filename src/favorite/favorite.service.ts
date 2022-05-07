@@ -6,6 +6,7 @@ import {
   ONE_OF_PRODUCT_ALREADY_FAVORITE_ERROR,
   PRODUCT_ALREADY_FAVORITE_ERROR,
 } from './favorite.constants';
+import { PRODUCT_NOT_FOUND_ERROR } from '../product/product.constants';
 import { FavoriteEntity } from './favorite.entity';
 import { ProductEntity } from '@app/product/product.entity';
 import { IProductFavorites } from '@app/product/interfaces/product-query.interface';
@@ -16,6 +17,8 @@ export class FavoriteService {
   constructor(
     @InjectRepository(FavoriteEntity)
     private readonly favoriteRepository: Repository<FavoriteEntity>,
+    @InjectRepository(ProductEntity)
+    private readonly productRepository: Repository<ProductEntity>,
   ) {}
 
   async create(user: UserEntity, product: ProductEntity): Promise<void> {
@@ -28,6 +31,15 @@ export class FavoriteService {
     }
     const preSave = { product, user };
     await this.favoriteRepository.save({ ...preSave });
+    const findProduct = await this.productRepository.findOne({
+      id: product.id,
+    });
+    if (!findProduct) {
+      throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
+    }
+
+    findProduct.favorite = true;
+    await this.productRepository.save(findProduct);
   }
 
   async remove(product: ProductEntity): Promise<void> {

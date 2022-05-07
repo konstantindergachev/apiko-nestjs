@@ -5,7 +5,7 @@ import {
   IProductAllQuery,
   IProductSearch,
 } from './interfaces/product-query.interface';
-import { NOT_FOUND_ERROR } from './product.constants';
+import { PRODUCT_NOT_FOUND_ERROR } from './product.constants';
 import { ProductEntity } from './product.entity';
 
 @Injectable()
@@ -40,7 +40,7 @@ export class ProductService {
     });
 
     if (!product) {
-      throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
+      throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
     }
 
     delete product.category.products;
