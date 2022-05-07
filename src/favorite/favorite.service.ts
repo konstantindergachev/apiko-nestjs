@@ -48,6 +48,15 @@ export class FavoriteService {
       throw new HttpException(NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
     }
     await this.favoriteRepository.delete({ product });
+    const findProduct = await this.productRepository.findOne({
+      id: product.id,
+    });
+    if (!findProduct) {
+      throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
+    }
+
+    findProduct.favorite = false;
+    await this.productRepository.save(findProduct);
   }
 
   async getFavorites(query: IProductFavorites): Promise<FavoriteEntity[]> {

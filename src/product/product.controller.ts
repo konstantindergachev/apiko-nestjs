@@ -21,7 +21,10 @@ import {
   IProductFavorites,
   IProductSearch,
 } from './interfaces/product-query.interface';
-import { ADD_TO_FAVORITE_SUCCESSFUL } from './product.constants';
+import {
+  ADD_TO_FAVORITE_SUCCESSFUL,
+  REMOVE_FROM_FAVORITE_SUCCESSFUL,
+} from './product.constants';
 import { ProductEntity } from './product.entity';
 import { ProductService } from './product.service';
 
@@ -90,6 +93,6 @@ export class ProductController {
   async deleteFromFavorite(@Param('prodId') prodId: string): Promise<object> {
     const product = await this.productService.getOne(prodId);
     await this.favoriteService.remove(product);
-    return { success: true };
+    return { message: REMOVE_FROM_FAVORITE_SUCCESSFUL };
   }
 }
