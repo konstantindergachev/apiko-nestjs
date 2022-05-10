@@ -4,6 +4,7 @@ import { Repository, In, Like } from 'typeorm';
 import {
   IProductAllQuery,
   IProductSearch,
+  IProductSort,
 } from './interfaces/product-query.interface';
 import { PRODUCT_NOT_FOUND_ERROR } from './product.constants';
 import { ProductEntity } from './product.entity';
@@ -69,6 +70,31 @@ export class ProductService {
       take: Number(limit),
       cache: true,
     });
+    return products.map((product) => {
+      delete product.category.products;
+      return product;
+    });
+  }
+
+  async sort(query: IProductSort): Promise<ProductEntity[]> {
+    let sortKey = '';
+    let sortValue = '';
+    if (query.sortBy === 'new') {
+      sortKey = 'created_at';
+      sortValue = 'DESC';
+    } else {
+      sortKey = 'favorite';
+      sortValue = 'DESC';
+    }
+
+    const products = await this.productRepository.find({
+      relations: ['category'],
+      order: {
+        [sortKey]: sortValue,
+      },
+      cache: true,
+    });
+
     return products.map((product) => {
       delete product.category.products;
       return product;

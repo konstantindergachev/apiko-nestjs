@@ -14,6 +14,10 @@ export interface IProductSearch {
   limit: string;
 }
 
+export interface IProductSort {
+  sortBy: string;
+}
+
 export interface IParamsFavorites {
   id: string;
   prodId: string;

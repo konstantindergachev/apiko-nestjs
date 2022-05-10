@@ -20,6 +20,7 @@ import {
   IProductByIdsQuery,
   IProductFavorites,
   IProductSearch,
+  IProductSort,
 } from './interfaces/product-query.interface';
 import {
   ADD_TO_FAVORITE_SUCCESSFUL,
@@ -50,6 +51,11 @@ export class ProductController {
   @Get('search')
   async search(@Query() query: IProductSearch): Promise<ProductEntity[]> {
     return this.productService.search(query);
+  }
+
+  @Get('sort')
+  async sort(@Query() query: IProductSort): Promise<ProductEntity[]> {
+    return this.productService.sort(query);
   }
 
   @UseGuards(AuthGuard)
