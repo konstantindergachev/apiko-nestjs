@@ -19,6 +19,11 @@ export class CategoryService {
   }
 
   async getOne(id: string): Promise<ProductEntity[]> {
+    if (id === '0') {
+      const query = { offset: '0', limit: '20', sortBy: 'latest' };
+      return await this.productService.getAll(query);
+    }
+
     const category = await this.categoryRepository.findOne(id);
 
     if (!category) {
