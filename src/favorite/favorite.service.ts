@@ -31,15 +31,6 @@ export class FavoriteService {
     }
     const preSave = { product, user };
     await this.favoriteRepository.save({ ...preSave });
-    const findProduct = await this.productRepository.findOne({
-      id: product.id,
-    });
-    if (!findProduct) {
-      throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
-    }
-
-    findProduct.favorite = true;
-    await this.productRepository.save(findProduct);
   }
 
   async remove(product: ProductEntity): Promise<void> {
@@ -59,13 +50,24 @@ export class FavoriteService {
     await this.productRepository.save(findProduct);
   }
 
-  async getFavorites(query: IProductFavorites): Promise<FavoriteEntity[]> {
+  async getFavorites(
+    id: number,
+    query: IProductFavorites,
+  ): Promise<FavoriteEntity[]> {
     const { offset, limit } = query;
-    const favorites = await this.favoriteRepository.find({
-      relations: ['product'],
+    const allProducts = await this.favoriteRepository.find({
+      relations: ['product', 'user'],
       skip: Number(offset),
       take: Number(limit),
       cache: true,
+    });
+
+    const favorites = allProducts.filter((favorite) => {
+      if (favorite.user.id === id) {
+        favorite.product.favorite = true;
+        delete favorite.user;
+        return favorite;
+      }
     });
 
     return favorites;

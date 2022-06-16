@@ -59,14 +59,6 @@ export class ProductController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('favorites')
-  async getFavorites(
-    @Query() query: IProductFavorites,
-  ): Promise<FavoriteEntity[]> {
-    return this.favoriteService.getFavorites(query);
-  }
-
-  @UseGuards(AuthGuard)
   @Post('favorites')
   @HttpCode(200)
   async createFavorites(
