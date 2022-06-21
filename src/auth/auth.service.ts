@@ -83,14 +83,14 @@ export class AuthService {
     }
 
     const isCorrect = await this.comparedPassword(
-      data.oldPassword,
+      data.currentPassword,
       user.password,
     );
     if (!isCorrect) {
       throw new HttpException(CREDENTIALS_ERROR, HttpStatus.NOT_ACCEPTABLE);
     }
 
-    const newPasswordHashed = await this.hashedPassword(data.password);
+    const newPasswordHashed = await this.hashedPassword(data.newPassword);
     const preUser = { password: newPasswordHashed };
     await this.userRepository.update(user.id, preUser);
 
