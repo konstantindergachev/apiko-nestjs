@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { IOrderAllQuery } from './interfaces/order-query.interface';
 // import { OrderProductEntity } from './order-product.entity';
-import { NOT_FOUND_ERROR } from './order.constants';
+import { NOT_FOUND_ERROR, SAVED_SUCCESS } from './order.constants';
 import { OrderEntity } from './order.entity';
 
 @Injectable()
@@ -46,9 +46,9 @@ export class OrderService {
     return order;
   }
 
-  async create(user: UserEntity, order: CreateOrderDto): Promise<OrderEntity> {
+  async create(user: UserEntity, order: CreateOrderDto): Promise<object> {
     const preSave = { ...order, user };
-    const savedOrder = await this.orderRepository.save({ ...preSave });
-    return savedOrder;
+    await this.orderRepository.save({ ...preSave });
+    return { message: SAVED_SUCCESS };
   }
 }

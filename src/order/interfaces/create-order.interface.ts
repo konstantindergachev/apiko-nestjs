@@ -1,5 +1,5 @@
 export interface IItemCreateOrder {
-  product_id: number;
+  productId: number;
   quantity: number;
 }
 

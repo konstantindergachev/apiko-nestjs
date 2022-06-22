@@ -42,10 +42,10 @@ export class OrderController {
   async create(
     @Param('id') id: string,
     @Body() body: CreateOrderDto,
-  ): Promise<OrderEntity> {
+  ): Promise<object> {
     const user = await this.userService.findById(id);
 
-    const prodIds = body.items.map((item) => item.product_id);
+    const prodIds = body.items.map((item) => item.productId);
 
     const products = await this.productService.getByIds(prodIds);
     const total = this.calcTotal(products, body.items);
@@ -54,7 +54,6 @@ export class OrderController {
       total,
       items: body.items,
       shipment: body.shipment,
-      products,
     };
     return await this.orderService.create(user, order);
   }
@@ -66,7 +65,7 @@ export class OrderController {
     let total = 0;
     products.map((product: ProductEntity) => {
       items.map((item) => {
-        if (product.id === item.product_id) {
+        if (product.id === item.productId) {
           total += Number(product.price) * item.quantity;
         }
       });
