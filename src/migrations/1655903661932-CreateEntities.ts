@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class CreateEntities1655714630193 implements MigrationInterface {
-    name = 'CreateEntities1655714630193'
+export class CreateEntities1655903661932 implements MigrationInterface {
+    name = 'CreateEntities1655903661932'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "categories" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_24dbc6126a28ff948da33e97d3b" PRIMARY KEY ("id"))`);
@@ -15,9 +15,13 @@ export class CreateEntities1655714630193 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_243803da0235b10de9f44ed583" ON "orders_products" ("orders_id") `);
         await queryRunner.query(`CREATE INDEX "IDX_f562af3e2f808eb76fa084cb9f" ON "orders_products" ("products_id") `);
         await queryRunner.query(`ALTER TABLE "accounts" ADD CONSTRAINT "FK_3000dad1da61b29953f07476324" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "orders_products" ADD CONSTRAINT "FK_243803da0235b10de9f44ed5833" FOREIGN KEY ("orders_id") REFERENCES "orders"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE "orders_products" ADD CONSTRAINT "FK_f562af3e2f808eb76fa084cb9fd" FOREIGN KEY ("products_id") REFERENCES "products"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`ALTER TABLE "orders_products" DROP CONSTRAINT "FK_f562af3e2f808eb76fa084cb9fd"`);
+        await queryRunner.query(`ALTER TABLE "orders_products" DROP CONSTRAINT "FK_243803da0235b10de9f44ed5833"`);
         await queryRunner.query(`ALTER TABLE "accounts" DROP CONSTRAINT "FK_3000dad1da61b29953f07476324"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_f562af3e2f808eb76fa084cb9f"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_243803da0235b10de9f44ed583"`);

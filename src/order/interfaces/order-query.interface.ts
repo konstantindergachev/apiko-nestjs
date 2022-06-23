@@ -1,6 +1,6 @@
 export interface IOrderAllQuery {
-  offset: string;
-  limit: string;
+  offset: number;
+  limit: number;
 }
 
 export interface IOrderOneQuery {

@@ -45,7 +45,7 @@ export class OrderEntity {
   updated_at: Date;
 
   @ManyToMany(() => ProductEntity, (product) => product.orders, {
-    createForeignKeyConstraints: false,
+    createForeignKeyConstraints: true,
     cascade: true,
   })
   @JoinTable({

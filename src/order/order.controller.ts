@@ -13,7 +13,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { IItemCreateOrder } from './interfaces/create-order.interface';
+import {
+  IItemCreateOrder,
+  IOrderResponse,
+} from './interfaces/create-order.interface';
 import { IOrderAllQuery } from './interfaces/order-query.interface';
 import { OrderEntity } from './order.entity';
 import { OrderService } from './order.service';
@@ -34,7 +37,7 @@ export class OrderController {
 
   @Get(':orderId')
   async getOne(@Param('orderId') orderId: string) {
-    return this.orderService.getOne(orderId);
+    return this.orderService.getOne(+orderId);
   }
 
   @Post()
@@ -42,7 +45,7 @@ export class OrderController {
   async create(
     @Param('id') id: string,
     @Body() body: CreateOrderDto,
-  ): Promise<object> {
+  ): Promise<IOrderResponse> {
     const user = await this.userService.findById(id);
 
     const prodIds = body.items.map((item) => item.productId);
