@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import {
   IItemCreateOrder,
+  IOrder,
   IOrderResponse,
 } from './interfaces/create-order.interface';
 import { IOrderAllQuery } from './interfaces/order-query.interface';
@@ -67,8 +68,15 @@ export class OrderService {
       user,
     });
     const findOrder = await this.getOne(savedOrder.id);
-    const findOrderItems = findOrder.items.map((item: IItemCreateOrder) => {
-      findOrder.products.forEach((product: ICreateProduct) => {
+    const findOrderItems = this.preResponseOrderItems(findOrder);
+    findOrder.items = findOrderItems;
+    delete findOrder.products;
+    return { message: SAVED_SUCCESS, order: findOrder };
+  }
+
+  preResponseOrderItems(rawOrder: IOrder) {
+    return rawOrder.items.map((item: IItemCreateOrder) => {
+      rawOrder.products.forEach((product: ICreateProduct) => {
         item.product = product;
         if (product.id === item.productId) {
           item.orderedPrice = item.quantity * product.price;
@@ -77,8 +85,5 @@ export class OrderService {
       delete item.productId;
       return item;
     });
-    findOrder.items = findOrderItems;
-    delete findOrder.products;
-    return { message: SAVED_SUCCESS, order: findOrder };
   }
 }

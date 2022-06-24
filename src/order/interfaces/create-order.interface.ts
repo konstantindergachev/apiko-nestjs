@@ -14,13 +14,15 @@ export interface IShipmentCreateOrder {
   city: string;
   address: string;
 }
+export interface IOrder {
+  id: number;
+  total: number;
+  products: ICreateProduct[];
+  items: IItemCreateOrder[];
+  shipment: IShipmentCreateOrder;
+  user: { id: number };
+}
 export interface IOrderResponse {
   message: string;
-  order: {
-    id: number;
-    total: number;
-    items: IItemCreateOrder[];
-    shipment: IShipmentCreateOrder;
-    user: { id: number };
-  };
+  order: IOrder;
 }
