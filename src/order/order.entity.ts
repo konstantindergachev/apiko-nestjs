@@ -31,7 +31,7 @@ export class OrderEntity {
   };
 
   @Column({
-    select: false,
+    select: true,
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
