@@ -31,8 +31,12 @@ export class OrderController {
   ) {}
 
   @Get()
-  async getAll(@Query() query: IOrderAllQuery): Promise<OrderEntity[]> {
-    return this.orderService.getAll(query);
+  async getAll(
+    @Param('id') id: string,
+    @Query() query: IOrderAllQuery,
+  ): Promise<OrderEntity[]> {
+    const user = await this.userService.findById(id);
+    return this.orderService.getAll(user, query);
   }
 
   @Get(':orderId')

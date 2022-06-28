@@ -23,12 +23,16 @@ export class OrderService {
     private readonly productRepository: Repository<ProductEntity>,
   ) {}
 
-  async getAll(query: IOrderAllQuery): Promise<OrderEntity[]> {
+  async getAll(
+    user: UserEntity,
+    query: IOrderAllQuery,
+  ): Promise<OrderEntity[]> {
     const { offset, limit } = query;
 
     const orders = await this.orderRepository.find({
-      select: ['id', 'total'],
+      select: ['id', 'total', 'created_at'],
       relations: ['products', 'user'],
+      where: { user },
       skip: Number(offset),
       take: Number(limit),
       cache: true,
