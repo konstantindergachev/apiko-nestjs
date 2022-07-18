@@ -20,7 +20,7 @@ export class CategoryService {
 
   async getOne(id: string): Promise<ProductEntity[]> {
     if (id === '0') {
-      const query = { offset: '0', limit: '20', sortBy: 'latest' };
+      const query = { offset: '0', limit: '30', sortBy: 'latest' };
       return await this.productService.getAll(query);
     }
 

@@ -5,9 +5,12 @@ import {
   Controller,
   HttpCode,
   Post,
+  Get,
+  UseGuards,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PASSWORD_CONFIRM_ERROR } from './auth.contants';
+import { PASSWORD_CONFIRM_ERROR, USER_LOGOUT } from './auth.contants';
+import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -34,6 +37,13 @@ export class AuthController {
   async login(@Body() body: LoginDto): Promise<IUserResponse> {
     const account = await this.authService.findByEmail(body);
     return await this.preUserResponse(account);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('logout')
+  @HttpCode(200)
+  logout(): { message: string } {
+    return { message: USER_LOGOUT };
   }
 
   private async preUserResponse(
