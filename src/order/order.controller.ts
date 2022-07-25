@@ -41,7 +41,8 @@ export class OrderController {
 
   @Get(':orderId')
   async getOne(@Param('orderId') orderId: string) {
-    return this.orderService.getOne(+orderId);
+    const order = await this.orderService.getOne(+orderId);
+    return { order };
   }
 
   @Post()
