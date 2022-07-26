@@ -26,7 +26,7 @@ export class OrderService {
   async getAll(
     user: UserEntity,
     query: IOrderAllQuery,
-  ): Promise<OrderEntity[]> {
+  ): Promise<{ order: OrderEntity }[]> {
     const { offset, limit } = query;
 
     const orders = await this.orderRepository.find({
@@ -40,7 +40,7 @@ export class OrderService {
 
     return orders.map((order) => {
       delete order.user.password;
-      return order;
+      return { order };
     });
   }
   async getOne(id: number): Promise<OrderEntity> {
