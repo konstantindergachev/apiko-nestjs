@@ -5,16 +5,20 @@ const getConfig = async (
   configService: ConfigService,
 ): Promise<ConnectionOptions> => ({
   type: 'postgres',
-  host: configService.get('POSTGRES_HOST'),
-  port: configService.get('POSTGRES_PORT'),
-  username: configService.get('POSTGRES_USER'),
-  password: configService.get('POSTGRES_PASSWORD'),
-  database: configService.get('POSTGRES_DB'),
+  url: configService.get<string>('DATABASE_URL'),
+  host: configService.get<string>('POSTGRES_HOST'),
+  port: configService.get<number>('POSTGRES_PORT'),
+  username: configService.get<string>('POSTGRES_USER'),
+  password: configService.get<string>('POSTGRES_PASSWORD'),
+  database: configService.get<string>('POSTGRES_DB'),
   entities: [`${__dirname}/**/*.entity{.ts,.js}`],
   synchronize: false,
   migrations: [`${__dirname}/migrations/**/*{.ts,.js}`],
   cli: {
     migrationsDir: 'src/migrations',
+  },
+  ssl: {
+    rejectUnauthorized: false,
   },
 });
 

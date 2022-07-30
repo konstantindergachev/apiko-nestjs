@@ -1,26 +1,20 @@
 version: '3.9'
 
 services:
-  database:
-    container_name: apiko
-    image: 'postgres:14.3-alpine'
-    ports:
-      - '5432:5432'
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:5.7
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: apiko_db
-      PGDATA: '/var/lib/postgresql/data/pgdata'
-    restart: always
+      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'admin'
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-      - apiko_data:/var/lib/postgresql/data
-  adminer:
-    image: adminer:4.8.1
-    restart: always
-    environment:
-      ADMINER_DESIGN: dracula
+      - ./pgadmin:/var/lib/pgadmin
     ports:
-      - 8889:8080
-
-volumes:
-  apiko_data: {}
+      - '5050:80'
+    restart: unless-stopped
+    networks:
+      - postgres
+networks:
+  postgres:
+    driver: bridge

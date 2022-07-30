@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  database:
+    container_name: apiko
+    image: 'postgres:14.3-alpine'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: apiko_db
+      PGDATA: '/var/lib/postgresql/data/pgdata'
+    restart: always
+    volumes:
+      - apiko_data:/var/lib/postgresql/data
+  adminer:
+    image: adminer:4.8.1
+    restart: always
+    environment:
+      ADMINER_DESIGN: dracula
+    ports:
+      - 8889:8080
+
+volumes:
+  apiko_data: {}
