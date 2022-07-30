@@ -1,4 +1,4 @@
-import ormconfig from '@app/ormconfig.migration';
+import ormconfig from '@app/ormconfig';
 
 const ormseedconfig = {
   ...ormconfig,
